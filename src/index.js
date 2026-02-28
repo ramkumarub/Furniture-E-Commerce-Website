@@ -5,10 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { CartProvider } from './Cartcontext/Cartcontext';
+import Scrolltop from '../src/Scrolltop/Scrolltop'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
+    <Scrolltop />
     <CartProvider>
       <App />
     </CartProvider>
