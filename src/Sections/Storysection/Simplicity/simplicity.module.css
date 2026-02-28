@@ -1,0 +1,66 @@
+.container
+{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+}
+.container h1
+{
+    color: var(--third-color);
+    font-size: 45px;
+}
+
+@media screen and (max-width: 1024px)
+{
+    .container
+    {
+        min-height: 75vh;
+    }
+}
+@media screen and (max-width: 768px)
+{
+    .container
+    {
+        min-height: 50vh;
+    }
+    .container h1
+    {
+        font-size: 40px;
+    }
+}
+@media screen and (max-width: 576px)
+{
+    .container
+    {
+        min-height: 40vh;
+    }
+    .container h1
+    {
+        font-size: 35px;
+    }
+}
+@media screen and (max-width: 480px)
+{
+    .container h1
+    {
+        font-size: 30px;
+    }
+}
+@media screen and (max-width: 350px)
+{
+    .container h1
+    {
+        font-size: 25px;
+    }
+}
+@media screen and (max-width: 280px)
+{
+    .container h1
+    {
+        font-size: 22px;
+    }
+}

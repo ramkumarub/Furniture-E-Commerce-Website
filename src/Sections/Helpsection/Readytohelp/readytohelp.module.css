@@ -1,0 +1,182 @@
+.container
+{
+    min-height: 90vh;
+    width: 100%;
+    background-color: var(--third-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 80px 40px;
+}
+.container h6
+{
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--fourth-color);
+    letter-spacing: 2px;
+}
+.container h1
+{
+    font-size: 65px;
+}
+.container span
+{
+    width: 50px;
+    border-bottom: 2px solid var(--first-color);
+    padding-top: 20px;
+}
+.readytohelp
+{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: stretch;
+    gap: 20px;
+    padding: 40px 60px;
+}
+.readydetail
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    background-color: #f3f3f3;
+    border-radius: 20px;
+    padding: 50px;
+    height: auto;
+    width: 100%;
+    max-width: 380px;
+}
+.readydetail span
+{
+    height: fit-content;
+    width: fit-content;
+    padding: 3px 8px;
+    border: 1px solid var(--first-color);
+    border-radius: 50%;
+    font-size: 20px;
+    color: var(--first-color);
+}
+.readydetail h4
+{
+    font-size: 26px;
+}
+.readydetail h6
+{
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    text-align: center;
+    color: rgb(74, 74, 74);
+}
+.readydetail h5
+{
+    font-size: 16px;
+    color: var(--first-color);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+.readydetail h5:hover
+{
+    color: var(--second-color);
+    transition: 0.4s;
+    cursor: pointer;
+}
+.readydetail a
+{
+    text-decoration: none;
+    color: inherit;
+}
+
+
+@media screen and (max-width: 1440px)
+{
+    .container
+    {
+        min-height: 50vh;
+        padding: 40px;
+    }
+    .readytohelp
+    {
+        padding: 40px;
+    }
+}
+@media screen and (max-width: 1200px)
+{
+    .container
+    {
+        padding: 20px;
+    }
+    .readytohelp
+    {
+        padding: 20px;
+    }
+}
+@media screen and (max-width: 1024px)
+{
+    .container
+    {
+        min-height: 50vh;
+        padding: 20px;
+    }
+    .readytohelp
+    {
+        padding: 0px;
+    }
+}
+@media screen and (max-width: 992px)
+{
+    .readydetail h4
+    {
+        font-size: 20px;
+    }
+    .readydetail h6
+    {
+        font-size: 14px;
+    }
+}
+@media screen and (max-width: 768px)
+{
+    .container
+    {
+        padding-top: 40px;
+    }
+    .container h1
+    {
+        font-size: 55px;
+    }
+    .readydetail
+    {
+        max-width: 100%;
+    }
+    .readytohelp
+    {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 10px;
+    }
+    .readydetail h4
+    {
+        font-size: 16px;
+    }
+}
+@media screen and (max-width: 480px)
+{
+    .container h1
+    {
+        font-size: 40px;
+    }
+    .readydetail h6
+    {
+        font-size: 13px;
+    }
+    .readydetail h5
+    {
+        font-size: 14px;
+    }
+}
