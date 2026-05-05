@@ -1,6 +1,0 @@
-.btn:hover
-{
-    background-color: var(--hover-bg) !important;
-    cursor: var(--btn-cursor) !important;
-    transition: var(--trans-time) !important;
-}
