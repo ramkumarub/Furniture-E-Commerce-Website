@@ -1,0 +1,46 @@
+.container
+{
+    background-color: var(--third-color);
+    padding: 40px 20px;
+    min-height: 20vh;
+    width: 100%;
+}
+.logobox
+{
+    height: fit-content;
+    border: 2px solid rgb(230, 230, 230);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    padding: 10px 20px;
+}
+.logobox img
+{
+    max-width: 100%;
+    object-fit: contain;
+}
+.container :global(.swiper-pagination)
+{
+    position: relative;
+    margin-top: 20px;
+}
+.container :global(.swiper-pagination-bullet)
+{
+    background-color: rgb(230, 230, 230);
+    opacity: 1;
+    width: 8px;
+    height: 8px;
+}
+.container :global(.swiper-pagination-bullet-active)
+{
+    background-color: var(--first-color);
+    transform: scale(1.1);
+}
+@media screen and (max-width: 1024px)
+{
+    .container
+    {
+        padding: 20px 20px;
+    }
+}

@@ -1,0 +1,139 @@
+.container
+{
+    background-color: var(--third-color);
+    padding: 40px 20px;
+    min-height: 75vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.title
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+.title h6
+{
+    color: var(--fourth-color);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+.title h2
+{
+    font-size: 45px;
+}
+.title span
+{
+    width: 50px;
+    border-bottom: 2px solid var(--first-color);
+    padding-top: 10px;
+}
+.whychooseus
+{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: stretch;
+    padding: 40px 60px;
+    padding-top: 40px;
+}
+.chooseus
+{
+    display: flex;
+    padding: 20px 30px;
+    height: 100%;
+    width: 100%;
+}
+.chooseusdetail
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    text-align: center;
+    width: 100%;
+}
+.chooseusdetail span
+{
+    font-size: 40px;
+    color: var(--first-color);
+}
+.chooseusdetail h4
+{
+    font-size: 22px;
+    font-weight: 400;
+}
+.chooseusdetail h6
+{
+    font-size: 15px;
+    font-weight: 400;
+    text-align: center;
+    color: rgb(74, 74, 74);
+}
+
+
+
+
+
+
+
+@media screen and (max-width: 1024px)
+{
+    .whychooseus
+    {
+        padding: 0px;
+    }
+}
+@media screen and (max-width: 992px)
+{
+    .whychooseus
+    {
+        grid-template-columns: repeat(3, 1fr);
+        padding-top: 0px;
+    }
+    .title
+    {
+        gap: 10px;
+    }
+    .chooseusdetail h4
+    {
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 768px)
+{
+    .whychooseus
+    {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 10px;
+    }
+    .title h6
+    {
+        font-size: 10px;
+    }
+    .title h2
+    {
+        font-size: 35px;
+    }
+    .chooseusdetail h4
+    {
+        font-size: 16px;
+    }
+}
+@media screen and (max-width: 480px)
+{
+    .title h2
+    {
+        font-size: 25px;
+    }
+    .chooseusdetail h6
+    {
+        font-size: 13px;
+    }
+}
