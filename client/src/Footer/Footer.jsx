@@ -39,6 +39,7 @@ const Footer = () => {
                     email: email
                 }
                 const response = await axios.post(`https://furniture-e-commerce-website.onrender.com/api/subscribe`, payload)
+                alert(response.data.message)
                 setSuccess(response.data.message)
                 
                 setEmail('')
