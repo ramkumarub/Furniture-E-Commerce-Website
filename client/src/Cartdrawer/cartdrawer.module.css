@@ -126,6 +126,11 @@
   color: var(--fourth-color);
   cursor: pointer;
 }
+.quantity button:disabled
+{
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
 .quantity p
 {
   font-size: 15.5px;

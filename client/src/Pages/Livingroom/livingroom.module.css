@@ -144,6 +144,50 @@
     width: fit-content;
     margin: 0 auto;
 }
+.pagination
+{
+    width : 100%;
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    gap : 15px;
+    margin-top : 0px 40px;
+}
+.pagination button
+{
+    min-width : 45px;
+    height : 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border : none;
+    outline : none;
+    background : #f1f1f1;
+    color : var(--second-color);
+    font-size : 16px;
+    font-weight : 500;
+    cursor : pointer;
+    border-radius : 50%;
+    transition : all 0.3s ease;
+    box-shadow : 0 2px 8px rgba(0,0,0,0.08);
+}
+.pagination button:hover
+{
+    background : #313131;
+    color : var(--third-color);
+    transform : translateY(-2px);
+}
+.activepage
+{
+    background : #313131 !important;
+    color : var(--third-color) !important;
+}
+.pagination button:disabled
+{
+    opacity : 0.4;
+    cursor : not-allowed;
+    transform : none;
+}
 
 @media screen and (max-width: 1440px)
 {

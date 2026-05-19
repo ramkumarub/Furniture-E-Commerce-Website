@@ -8,7 +8,9 @@ import Livingroom from '../Pages/Livingroom/Livingroom'
 import Bedroom from '../Pages/Bedroom/Bedroom'
 import Story from '../Pages/Story/Story'
 import Contact from '../Pages/Contact/Contact'
-import Trackorder from '../Pages/Trackorder/Trackorder'
+import Login from '../Pages/Login/Login'
+import Logout from '../Pages/Logout/Logout'
+import Signup from "../Pages/Signup/Signup"
 import Help from '../Pages/Help/Help'
 import Reset from '../Pages/Reset/Reset'
 import Navbar from '../Header/Navbar'
@@ -23,19 +25,21 @@ const Routing = () => {
       <Navbar />
         <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/Shopall' element={<Shopall />} />
-            <Route path='/Decor' element={<Decor />} />
-            <Route path='/Office' element={<Office />} />
-            <Route path='/Livingroom' element={<Livingroom />} />
-            <Route path='/Bedroom' element={<Bedroom />} />
-            <Route path='/Story' element={<Story />} />
-            <Route path='/Contact' element={<Contact />} />
-            <Route path='/Trackorder' element={<Trackorder />} />
-            <Route path='/Help' element={<Help />} />
-            <Route path='/Reset' element={<Reset />} />
+            <Route path='/shopall' element={<Shopall />} />
+            <Route path='/decor' element={<Decor />} />
+            <Route path='/office' element={<Office />} />
+            <Route path='/livingroom' element={<Livingroom />} />
+            <Route path='/bedroom' element={<Bedroom />} />
+            <Route path='/story' element={<Story />} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/logout' element={<Logout />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/help' element={<Help />} />
+            <Route path='/reset' element={<Reset />} />
             <Route path='/product/:_id/:category' element={<ProductDetail />} />
-            <Route path='/Viewcart' element={<Viewcart />}></Route>
-            <Route path='/Checkout' element={<Checkout />}></Route>
+            <Route path='/viewcart' element={<Viewcart />}></Route>
+            <Route path='/checkout' element={<Checkout />}></Route>
         </Routes>
       <Footer />
     </>

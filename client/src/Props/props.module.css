@@ -1,6 +1,11 @@
-.btn:hover
+.btn:hover:not(:disabled)
 {
     background-color: var(--hover-bg) !important;
     cursor: var(--btn-cursor) !important;
     transition: var(--trans-time) !important;
+}
+.btn:disabled
+{
+    cursor: not-allowed !important;
+    opacity: 0.5;
 }

@@ -1,87 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import livingroom from './livingroom.module.css'
 import { Link } from 'react-router-dom'
-import product03a from '../../Assets/product-03-a.jpg'
-import product03b from '../../Assets/product-03-b.jpg'
-import product03c from '../../Assets/product-03-c.jpg'
-import product05a from '../../Assets/product-05-a.jpg'
-import product05b from '../../Assets/product-05-b.jpg'
-import product05c from '../../Assets/product-05-c.jpg'
-import product06a from '../../Assets/product-06-a.jpg'
-import product06b from '../../Assets/product-06-b.jpg'
-import product06c from '../../Assets/product-06-c.jpg'
-import product08a from '../../Assets/product-08-a.jpg'
-import product08b from '../../Assets/product-08-b.jpg'
-import product08c from '../../Assets/product-08-c.jpg'
-import product10a from '../../Assets/product-10-a.jpg'
-import product10b from '../../Assets/product-10-b.jpg'
-import product10c from '../../Assets/product-10-c.jpg'
-import product16a from '../../Assets/product-16-a.jpg'
-import product16b from '../../Assets/product-16-b.jpg'
-import product16c from '../../Assets/product-16-c.jpg'
+import axios from 'axios'
+import { MdKeyboardDoubleArrowLeft } from "react-icons/md"
+import { MdKeyboardDoubleArrowRight } from "react-icons/md"
 
 const Livingroom = () => {
 
-    const productsData = [
-        {
-            _id : 3,
-            name : 'Cirrus Bar Stool',
-            variants : [
-                { _id: 31, image: product03a, bgcolor: '#000000', oldprice: '$220.00', newprice: '$180.00' },
-                { _id: 32, image: product03b, bgcolor: '#864a27', oldprice: '$240.00', newprice: '$195.00' },
-                { _id: 33, image: product03c, bgcolor: '#e2ae90', oldprice: '$260.00', newprice: '$210.00' }
-            ]
-        },
-        {
-            _id : 5,
-            name : 'Stratos Swivel Stool',
-            variants : [
-                { _id: 51, image: product05a, bgcolor: '#000000', oldprice: '$300.00', newprice: '$250.00' },
-                { _id: 52, image: product05b, bgcolor: '#864a27', oldprice: '$325.00', newprice: '$275.00' },
-                { _id: 53, image: product05c, bgcolor: '#e2ae90', oldprice: '$350.00', newprice: '$295.00' }
-            ]
-        },
-        {
-            _id : 6,
-            name : 'Orbit Low Lounge Table',
-            variants : [
-                { _id: 61, image: product06a, bgcolor: '#000000', oldprice: '$400.00', newprice: '$350.00' },
-                { _id: 62, image: product06b, bgcolor: '#864a27', oldprice: '$420.00', newprice: '$370.00' },
-                { _id: 63, image: product06c, bgcolor: '#e2ae90', oldprice: '$450.00', newprice: '$390.00' }
-            ]
-        },
-        {
-            _id : 8,
-            name : 'Aura Pedestal Table',
-            variants : [
-                { _id: 81, image: product08a, bgcolor: '#000000', oldprice: '$360.00', newprice: '$310.00' },
-                { _id: 82, image: product08b, bgcolor: '#864a27', oldprice: '$380.00', newprice: '$330.00' },
-                { _id: 83, image: product08c, bgcolor: '#e2ae90', oldprice: '$400.00', newprice: '$350.00' }
-            ]
-        },
-        {
-            _id : 10,
-            name : 'Orbit Floating Table Lamp',
-            variants : [
-                { _id: 101, image: product10a, bgcolor: '#000000', oldprice: '$210.00', newprice: '$170.00' },
-                { _id: 102, image: product10b, bgcolor: '#864a27', oldprice: '$230.00', newprice: '$190.00' },
-                { _id: 103, image: product10c, bgcolor: '#e2ae90', oldprice: '$250.00', newprice: '$205.00' }
-            ]
-        },
-        {
-            _id : 16,
-            name : 'Serene Funnel Lamp',
-            variants : [
-                { _id : 161, image : product16a, bgcolor : '#000000', oldprice : '$220.00', newprice : '$180.00' },
-                { _id : 162, image : product16b, bgcolor : '#864a27', oldprice : '$240.00', newprice : '$200.00' },
-                { _id : 163, image : product16c, bgcolor : '#e2ae90', oldprice : '$260.00', newprice : '$220.00' }
-            ]
-        }
-    ]
-
     const [sortOption, setSortOption] = useState('default')
+    const [products, setProducts] = useState([])
+    const [page, setPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1)
 
-    const sortedProducts = [...productsData].sort((a, b) => {
+    const sortedProducts = [...products].sort((a, b) => {
 
         const priceA = parseFloat(a.variants[0].newprice.replace('$', ''))
         const priceB = parseFloat(b.variants[0].newprice.replace('$', ''))
@@ -108,13 +39,29 @@ const Livingroom = () => {
 
     })
 
+    useEffect(() => {
+        const fetchProducts = async() => {
+            try {
+                const slug = "livingroom"
+                const res = await axios.get(`http://localhost:8000/api/products/categories/${slug}?page=${page}&limit=6`)
+                setProducts(res.data.data)
+                setTotalPages(res.data.totalPages)
+            }
+            catch (error) {
+                console.log(error)
+                setProducts([])
+            }
+        }
+        fetchProducts()
+    }, [page])
+
     const ProductCard = ({ product }) => {
 
         const [currentColor, setCurrentColor] = useState(product.variants[0])
 
         return (
             <div className={livingroom.image}>
-                <Link to={`/product/${product._id}/Living Room`}>
+                <Link to={`/product/${product._id}/${product.categories.find((cat) => window.location.pathname.includes(cat.slug))?.slug || product.categories?.[0]?.slug || "shopall"}`}>
                     <img src={currentColor.image} alt={product.name} />
                 </Link>
                 <button className={livingroom.sale}>Sale!</button>
@@ -124,10 +71,21 @@ const Livingroom = () => {
                         <strike>{currentColor.oldprice}</strike>
                         <p style={{ color: '#313131' }}>{currentColor.newprice}</p>
                     </h5>
+                    {
+                        currentColor.stock > 0 
+                        ?
+                        <p style={{ color: 'green', fontSize: '15px' }}>
+                            In Stock : {currentColor.stock}
+                        </p>
+                        :
+                        <p style={{ color: 'red', fontSize: '15px' }}>
+                            Out of Stock
+                        </p>
+                    }
                     <div className={livingroom.buttons}>
                         {product.variants.map((item) => (
                             <div key={item._id}>
-                                <button className={livingroom.currentbutton} onClick={() => setCurrentColor(item)} style={{ backgroundColor: item.bgcolor, cursor : 'pointer' }}></button>
+                                <button className={livingroom.currentbutton} onClick={() => setCurrentColor(item)} style={{ backgroundColor: item.color, cursor : 'pointer' }}></button>
                             </div>
                         ))}
                     </div>
@@ -142,9 +100,9 @@ const Livingroom = () => {
             <h6><Link to={'/'}>Home</Link> / Living Room</h6>
             <h1>LIVING ROOM</h1>
             <div className={livingroom.filterorder}>
-                <h5>Showing all 6 results</h5>
+                <h5>Showing page {page} of {totalPages}</h5>
                 <select name='filter' id='filter' value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-                    <option value='default'>Deafult Sorting</option>
+                    <option value='default'>Default Sorting</option>
                     <option value='popularity'>Sort by popularity</option>
                     <option value='rating'>Sort by average rating</option>
                     <option value='latest'>Sort by latest</option>
@@ -153,13 +111,26 @@ const Livingroom = () => {
                 </select>
             </div>
             <div className={livingroom.products}>
-                {sortedProducts
-                .map((product) => (
-                    <ProductCard key={product._id} product={product} />
-                ))}
+                {sortedProducts.length === 0 ? (
+                    <h2>No Products Found</h2>
+                ) : (
+                    sortedProducts.map((product) => (
+                        <ProductCard key={product._id} product={product} />
+                    ))
+                )}
             </div>
-            <div className={livingroom.endproducts}>
-                <p>No more products to show.</p>
+            <div className={livingroom.pagination}>
+                <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+                    <MdKeyboardDoubleArrowLeft />
+                </button>
+                {[...Array(totalPages)].map((_, index) => (
+                    <button key={index} onClick={() => setPage(index + 1)} className={page === index + 1 ? livingroom.activepage : ""}>
+                        {index + 1}
+                    </button>
+                ))}
+                <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+                    <MdKeyboardDoubleArrowRight />
+                </button>                
             </div>
         </div>
     </div>

@@ -16,7 +16,7 @@ const Readytohelp = () => {
             option: 'ACCOUNT PRICVACY',
             description: 'Quisque a pharetra quam. Donec et risus sem. Etiam sollicitudin leo eu congue gravida. In semper lectus neque, eu interdum nisl pretium sit amet etiam efficitur.',
             link : 'PRIVACY POLICTY',
-            path : '/Story'
+            path : '/story'
         },
         {
             _id: 2,
@@ -24,7 +24,7 @@ const Readytohelp = () => {
             option: 'SUPPORT SPECIALIST',
             description: 'Quisque a pharetra quam. Donec et risus sem. Etiam sollicitudin leo eu congue gravida. In semper lectus neque, eu interdum nisl pretium sit amet etiam efficitur.',
             link : 'CONTACT US',
-            path : '/Contact'
+            path : '/contact'
         },
         {
             _id: 3,
@@ -32,7 +32,7 @@ const Readytohelp = () => {
             option: 'SELLER STANDARDS',
             description: 'Quisque a pharetra quam. Donec et risus sem. Etiam sollicitudin leo eu congue gravida. In semper lectus neque, eu interdum nisl pretium sit amet etiam efficitur.',
             link : 'LEARN MORE',
-            path : '/Story'
+            path : '/story'
         }
     ]
 

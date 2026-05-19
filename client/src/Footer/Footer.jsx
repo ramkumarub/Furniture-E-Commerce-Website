@@ -11,6 +11,7 @@ const Footer = () => {
     const [email, setEmail] = useState('')
     const [error, setError] = useState({})
     const [success, setSuccess] = useState('')
+    const [apiError, setApiError] = useState('')
 
     const validate = () => {
 
@@ -30,15 +31,21 @@ const Footer = () => {
     const handleSubmit = async() => {
 
         if (validate()) {
-            setSuccess('Subscribed Successfully! 🎉')
-            setEmail('')
+            setError({})
+            setSuccess('')
+            setApiError('')
             try {
                 const payload = {
                     email: email
                 }
-                await axios.post(`https://jsonplaceholder.typicode.com/users`, payload)
+                const response = await axios.post(`http://localhost:8000/api/subscribe`, payload)
+                setSuccess(response.data.message)
+                
+                setEmail('')
             }
             catch (error) {
+                setSuccess('')
+                setApiError(error.response.data.message)
                 console.log(error)
             }
         }
@@ -61,23 +68,31 @@ const Footer = () => {
                     <h4>LINKS</h4>
                     <div className={footer.linksitems}>
                         <h6>
-                            <Link to={'/Story'}>
-                                Story
+                            <Link to={'/story'}>
+                                <span>Story</span>
                             </Link>
                         </h6>
                         <h6>
-                            <Link to={'/Contact'}>
-                                Contact
+                            <Link to={'/contact'}>
+                                <span>Contact</span>
                             </Link>
                         </h6>
                         <h6>
-                            <Link to={'/Trackorder'}>
-                                Track Order
+                            <Link to={'/help'}>
+                                <span>Help</span>
                             </Link>
                         </h6>
                         <h6>
-                            <Link to={'/Help'}>
-                                Help
+                            <Link to={'/login'}>
+                                <span>Login / </span> 
+                            </Link>
+                            <Link to={'/signup'}>
+                                <span>Signup</span>
+                            </Link>
+                        </h6>
+                        <h6>
+                            <Link to={'/logout'}>
+                                <span>Logout</span>
                             </Link>
                         </h6>
                     </div>
@@ -86,23 +101,28 @@ const Footer = () => {
                     <h4>CATEGORIES</h4>
                     <div className={footer.categoriesitems}>
                         <h6>
-                            <Link to={'/Bedroom'}>
-                                Bedroom <span style={{ color: 'black', fontWeight: '300' }}>(6)</span>
+                            <Link to={'/shopall'}>
+                                <span>Shopall</span>
                             </Link>
                         </h6>
                         <h6>
-                            <Link to={'/Decor'}>
-                                Decor <span style={{ color: 'black', fontWeight: '300' }}>(6)</span>
+                            <Link to={'/bedroom'}>
+                                <span>Bedroom</span>
                             </Link>
                         </h6>
                         <h6>
-                            <Link to={'/Livingroom'}>
-                                Living Room <span style={{ color: 'black', fontWeight: '300' }}>(6)</span>
+                            <Link to={'/decor'}>
+                                <span>Decor</span>
                             </Link>
                         </h6>
                         <h6>
-                            <Link to={'/Office'}>
-                                Office <span style={{ color: 'black', fontWeight: '300' }}>(6)</span>
+                            <Link to={'/livingroom'}>
+                                <span>Living Room</span>
+                            </Link>
+                        </h6>
+                        <h6>
+                            <Link to={'/office'}>
+                                <span>Office</span>
                             </Link>
                         </h6>
                     </div>
@@ -112,8 +132,9 @@ const Footer = () => {
                     <div className={footer.subscribeitems}>
                         <div className={footer.subscribebox}>
                             <input type="text" placeholder='Enter your email address *' value={email} onChange={(e) => setEmail(e.target.value)} 
-                                className={error.email ? footer.errorinput : ''} />
+                                name='email' autoComplete='email' className={error.email ? footer.errorinput : ''} />
                             {error.email && (<p style={{ fontSize: '12px', color: 'red' }}>{error.email}</p>)}
+                            {apiError && (<p style={{ fontSize: '12px', color: 'red' }}>{apiError}</p>)}
                             {success && (<p style={{ fontSize: '12px', color: 'green' }}>{success}</p>)}
                         </div>
                         <Props content={'SUBSCRIBE'} fsize={'15px'} font={'var(--primary-font)'} bgcolor={'var(--second-color)'}

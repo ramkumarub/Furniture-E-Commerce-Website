@@ -35,28 +35,28 @@ const Navbar = () => {
             <div className={navbar.pages}>
                 <ul>
                     <li>
-                        <Link to={'/Shopall'}>
+                        <Link to={'/shopall'}>
                             <span>SHOP ALL</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to={'/Decor'}>
+                        <Link to={'/bedroom'}>
+                            <span>BEDROOM</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to={'/decor'}>
                             <span>DECOR</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to={'/Office'}>
-                            <span>OFFICE</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to={'/Livingroom'}>
+                        <Link to={'/livingroom'}>
                             <span>LIVING ROOM</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to={'/Bedroom'}>
-                            <span>BEDROOM</span>
+                        <Link to={'/office'}>
+                            <span>OFFICE</span>
                         </Link>
                     </li>
                 </ul>
@@ -64,26 +64,33 @@ const Navbar = () => {
             <div className={navbar.links}>
                 <ul>
                     <li>
-                        <Link to={'/Story'}>
+                        <Link to={'/story'}>
                             <span>STORY</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to={'/Contact'}>
+                        <Link to={'/contact'}>
                             <span>CONTACT</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to={'/Trackorder'}>
-                            <span>TRACK ORDER</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to={'/Help'}>
+                        <Link to={'/help'}>
                             <span>HELP</span>
                         </Link>
                     </li>
-                    <li>Log In</li>
+                    <li style={{ fontSize: '11px' }}>
+                        <Link to={'/login'}>
+                            <span>Login / </span>
+                        </Link>
+                        <Link to={'/signup'}>
+                            <span>Signup</span>
+                        </Link>
+                    </li>
+                    <li style={{ fontSize: '11px' }}>
+                        <Link to={'/logout'}>
+                            <span>Logout</span>
+                        </Link>
+                    </li>
                     {/* <span className={navbar.searchicon} onClick={() => setSearchBox(true)}><FaSearch /></span> */}
                     <span data-count={cartCount} onClick={() => setIsOpen(true)}
                         className={`${isHome ? navbar.cartcount : navbar.cartcountwhite}`}>

@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 import Props from '../Props/Props';
 import { useCart } from '../Cartcontext/Cartcontext';
 import { IoIosLock } from "react-icons/io";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Checkout = () => {
 
-  const { cartSubtotal, setCartItems } = useCart();
+  const { cartSubtotal, cartItems, setCartItems } = useCart();
 
   const countries = Country.getAllCountries()
 
@@ -27,7 +28,12 @@ const Checkout = () => {
   const [selectedState, setSelectedState] = useState('')
   const [error, setError] = useState({})
   const [payment, setPayment] = useState('')
+  const [additionalInformation, setAdditionalInformation] = useState('')
   const [submitted, setSubmitted] = useState(false)
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token")
 
   const handleCountryChange = (e) => {
     const countryCode = e.target.value
@@ -66,7 +72,7 @@ const Checkout = () => {
     if (!houseNumber.trim()) {
       newError.houseNumber = 'House Number is Required'
     }
-    else if (!/^[0-9A-Za-z/-]{1,10}$/.test(houseNumber)) {
+    else if (!/^[0-9A-Za-z\s/-]{1,20}$/.test(houseNumber)) {
       newError.houseNumber = 'Invalid House Number'
     }
 
@@ -115,23 +121,56 @@ const Checkout = () => {
   }
 
   const handleSubmit = async () => {
-
+    if (!token) {
+      alert("Please login to place order")
+      navigate("/login", {
+        state : {
+          from : location.pathname
+        }
+      })
+      return
+    }
     if (!validate())
       return
     try {
       const payload = {
-        Email: email,
-        Firstname: fname,
-        Lastname: lname,
-        Country : selectedCountry, 
-        Housenumber : houseNumber,
-        Streetname: streetName,
-        Town : town,
-        State : selectedState,
-        Pincode : pincode,
-        Number : number
+        productId: cartItems.map((item) => item.productId),
+        productName: cartItems.map((item) => item.name),
+        productPrice: cartItems.map((item) => item.price),
+        productColor: cartItems.map((item) => item.color),
+        productQuantity: cartItems.map((item) => item.quantity),
+        totalPrice: cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2),
+        email: email,
+        fname: fname,
+        lname: lname,
+        selectedCountry : selectedCountry, 
+        houseNumber : houseNumber,
+        streetName: streetName,
+        town : town,
+        selectedState : selectedState,
+        pincode : pincode,
+        number : number,
+        additionalInformation : additionalInformation,
+        payment : payment
       }
-      await axios.post(`https://jsonplaceholder.typicode.com/users`, payload)
+      const response = await axios.post(
+        `http://localhost:8000/api/checkouts`,
+        payload,
+        {
+          headers : {
+            Authorization : `Bearer ${token}`
+          }
+        }
+      )
+      for (let item of cartItems) {
+        await axios.put(`
+          http://localhost:8000/api/products/${item.productId}/variants/${item.variantId}/stock`, 
+          {
+            stock : item.quantity
+          }
+        )
+      }
+      alert(response.data.message)
       setCartItems([])
       localStorage.removeItem('cart')
       setSubmitted(true)
@@ -231,8 +270,8 @@ const Checkout = () => {
             <div className={checkout.additional}>
               <h1>Additional Information</h1>
               <div className={checkout.checkoutform}>
-                <textarea placeholder='Notes about your order, e.g. special notes for delivery.' 
-                  className={checkout.textbox} rows={3}/>
+                <textarea placeholder='Notes about your order, e.g. special notes for delivery.' className={checkout.textbox} 
+                rows={3} value={additionalInformation} onChange={(e) => setAdditionalInformation(e.target.value)} />
               </div>
             </div>
 
@@ -319,7 +358,7 @@ const Checkout = () => {
             </div>
             
             <div>
-              <Link to={'/Shopall'}>
+              <Link to={'/shopall'}>
                 <Props content={'Continue Shopping'} fsize={'15px'} font={'var(--primary-font)'} bgcolor={'var(--second-color)'} 
                       col={'var(--third-color)'} bord={'none'} rad={'0'} pad={'10px 23px'} 
                       hbg={'var(--first-color)'} cursor={'pointer'} trans={'0.4s'}

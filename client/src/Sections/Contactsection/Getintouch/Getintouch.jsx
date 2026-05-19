@@ -9,6 +9,7 @@ const Getintouch = () => {
     
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
+    const [subject, setSubject] = useState('')
     const [message, setMessage] = useState('')
     const [submitted, setSubmitted] = useState(false)
     const [error, setError] =useState({})
@@ -31,6 +32,13 @@ const Getintouch = () => {
             newError.email = 'Invalid Email Address'
         }
 
+        if (!subject.trim()) {
+            newError.subject = 'Subject is Required'
+        }
+        else if (!/^[A-Za-z0-9\s.,!?'"()-]{3,100}$/.test(subject)) {
+            newError.subject = 'Invalid Subject'
+        }
+
         if (!message.trim()) {
             newError.message = 'Message is Required'
         }
@@ -50,9 +58,10 @@ const Getintouch = () => {
             const payload = {
                 name: name,
                 email: email,
+                subject : subject,
                 message: message
             }
-            await axios.post(`https://jsonplaceholder.typicode.com/users`, payload)
+            await axios.post(`http://localhost:8000/api/contacts`, payload)
             setSubmitted(true)
         }
         catch (error) {
@@ -81,6 +90,12 @@ const Getintouch = () => {
                         {error.email && (<p style={{ fontSize: '12px', color: 'red' }}>{error.email}</p>)}
                     </div>
                     <div className={getintouch.contactform}>
+                        <label htmlFor="subject">Subject <span style={{color : 'red', borderBottom : 'none'}}>*</span></label>
+                        <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder='Enter Your Subject *'
+                        className={`${getintouch.textbox} ${error.subject ? getintouch.errorinput : ''}`} />
+                        {error.subject && (<p style={{ fontSize: '12px', color: 'red' }}>{error.subject}</p>)}
+                    </div>
+                    <div className={getintouch.contactform}>
                         <label htmlFor="name">Message <span style={{color : 'red', borderBottom : 'none'}}>*</span></label>
                         <textarea name="message" rows={5} value={message} onChange={(e) => setMessage(e.target.value)} placeholder='Enter Your Message *' 
                             className={`${getintouch.textbox} ${error.message ? getintouch.errorinput : ''}`} />
@@ -101,7 +116,7 @@ const Getintouch = () => {
                 </div>
             )}
         </div>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2362.5712166784456!2d0.0689860764673331!3d51.46633772180399!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a91f2b7f45a3%3A0xfa8a76749c12577e!2sOxleas%20Wood!5e1!3m2!1sen!2sin!4v1771570116378!5m2!1sen!2sin" width="100%" height="450" style={{border : '0'}} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title='hii' />
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2362.5712166784456!2d0.0689860764673331!3d51.46633772180399!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a91f2b7f45a3%3A0xfa8a76749c12577e!2sOxleas%20Wood!5e1!3m2!1sen!2sin!4v1771570116378!5m2!1sen!2sin" width="100%" height="450" style={{border : '0'}} loading="lazy" title='location' />
     </>
   )
 }

@@ -13,63 +13,65 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('cart', JSON.stringify(cartItems))
   },[cartItems])
 
-  const addToCart = (product) => {
-    const exists = cartItems.find((item) => item.id === product.id);
+  const addToCart = (product) => { 
+    const exists = cartItems.find((item) => 
+      item.productId === product.productId &&
+      item.variantId === product.variantId
+    )
+
     if (exists) {
-      setCartItems(
-        cartItems.map((item) =>
-          item.id === product.id
-            ? {
-              ...item,
-              quantity: item.quantity + product.quantity,
-            }
-            : item
-        )
-      );
-    } else {
-      setCartItems([
-        ...cartItems,
-        {
-          ...product,
-          price: Number(product.price),
-        },
-      ]);
+      setCartItems(cartItems.map((item) =>
+        item.productId === product.productId && 
+        item.variantId === product.variantId
+        ? {...item, quantity: item.quantity + product.quantity} : item))
+    } 
+    else {
+      setCartItems([...cartItems,{
+        id: product.id,
+        productId: product.productId,
+        variantId: product.variantId,
+        name: product.name,
+        color: product.color,
+        price: Number(product.price),
+        quantity: product.quantity,
+        image: product.image,
+        stock: product.stock
+      }])
     }
-  };
-  const removeFromCart = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
-  const increaseQty = (id) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
+  }
+
+  const removeFromCart = (productId, variantId) => {
+    setCartItems(cartItems.filter((item) => 
+      !(
+        item.productId === productId &&
+        item.variantId === variantId
       )
-    );
-  };
-  const decreaseQty = (id) => {
-    setCartItems(
-      cartItems
-        .map((item) =>
-          item.id === id
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
-  };
-  const cartCount = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
-  const cartSubtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+    ))
+  }
+
+  const decreaseQty = (productId, variantId) => {
+    setCartItems(cartItems.map((item) => 
+      item.productId === productId &&
+      item.variantId === variantId
+      ? { ...item, quantity: item.quantity - 1 } : item)
+      .filter((item) => item.quantity > 0))
+  }
+
+  const increaseQty = (productId, variantId) => {
+  setCartItems(cartItems.map((item) => {
+      if (item.productId === productId && item.variantId === variantId) {
+        return {...item, quantity: item.quantity + 1}
+      }
+      return item
+    }))
+  }
+  
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
+  
+  const cartSubtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, cartCount, removeFromCart, increaseQty, decreaseQty, cartSubtotal, setCartItems }}>
+    <CartContext.Provider value={{ cartItems, addToCart, cartCount, removeFromCart, decreaseQty, increaseQty, cartSubtotal, setCartItems }}>
       {children}
     </CartContext.Provider>
   );

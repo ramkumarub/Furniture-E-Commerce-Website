@@ -1,0 +1,52 @@
+.container
+{
+    background-color: var(--third-color);
+    padding: 50px 20px 60px;
+    min-height: 90vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+.container h1
+{
+    font-size: 25px;
+    font-weight: 400;
+}
+.logoutform
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 30px;
+    gap: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+.logoutform h2
+{
+    font-size: 45px;
+    padding-bottom: 10px;
+}
+.logoutform p
+{
+    font-size: 15px;
+    color: var(--fourth-color);
+    line-height: 1.6;
+}
+.logoutform .btn
+{
+    width: 100%;
+    margin-top: 15px;
+}
+.logoutform .btn > *
+{
+    width: 100%;
+    display: block;
+}
