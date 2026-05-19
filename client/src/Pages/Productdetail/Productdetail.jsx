@@ -124,7 +124,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async() => {
       try {
-          const res = await axios.get(`http://localhost:8000/api/products/${_id}`)
+          const res = await axios.get(`https://furniture-e-commerce-website.onrender.com/api/products/${_id}`)
           const foundProduct = res.data.data
           setProduct(foundProduct)
 
@@ -134,10 +134,10 @@ const ProductDetail = () => {
           
           let relatedRes
           if (!category || category === "shopall" || category === "undefined") {
-              relatedRes = await axios.get(`http://localhost:8000/api/products?limit=10`)
+              relatedRes = await axios.get(`https://furniture-e-commerce-website.onrender.com/api/products?limit=10`)
           }
           else {
-              relatedRes = await axios.get(`http://localhost:8000/api/products/categories/${category}?limit=10`)
+              relatedRes = await axios.get(`https://furniture-e-commerce-website.onrender.com/api/products/categories/${category}?limit=10`)
           }
 
           const relatedData = relatedRes.data?.data || []

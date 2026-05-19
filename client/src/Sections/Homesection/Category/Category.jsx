@@ -10,7 +10,7 @@ const Category = () => {
     useEffect(() => {
         try {
             const fetchCategories = async() => {
-                const res = await axios.get(`http://localhost:8000/api/categories`)
+                const res = await axios.get(`https://furniture-e-commerce-website.onrender.com/api/categories`)
                 setCategories(res.data.data)
             }
             fetchCategories()

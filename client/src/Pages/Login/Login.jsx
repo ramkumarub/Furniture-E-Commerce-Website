@@ -50,7 +50,7 @@ const Login = () => {
             email : email,
             password : password 
           }
-          const response = await axios.post(`http://localhost:8000/api/users/login`, payload)
+          const response = await axios.post(`https://furniture-e-commerce-website.onrender.com/api/users/login`, payload)
           alert(response.data.message)
           setSuccess(response.data.message)
           if (rememberMe) {

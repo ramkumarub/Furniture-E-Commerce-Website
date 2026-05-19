@@ -44,7 +44,7 @@ const Viewcart = () => {
                 const payload = {
                     couponCode: couponCode
                 }
-                const response = await axios.post(`http://localhost:8000/api/coupons`, payload)
+                const response = await axios.post(`https://furniture-e-commerce-website.onrender.com/api/coupons`, payload)
                 alert(response.data.message)
                 setSuccess(response.data.message)
                 setCouponCode('')

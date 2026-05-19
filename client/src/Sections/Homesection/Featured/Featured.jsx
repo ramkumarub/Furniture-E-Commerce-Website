@@ -34,7 +34,7 @@ const Featured = () => {
     useEffect(() => {
         const fetchProducts = async() => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/products`)
+                const res = await axios.get(`https://furniture-e-commerce-website.onrender.com/api/products`)
                 const allProducts = res.data.data
 
                 const randomProducts = [...allProducts].sort(() => Math.random() - 0.5).slice(0, 6)

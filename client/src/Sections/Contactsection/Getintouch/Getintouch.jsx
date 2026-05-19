@@ -61,7 +61,7 @@ const Getintouch = () => {
                 subject : subject,
                 message: message
             }
-            await axios.post(`http://localhost:8000/api/contacts`, payload)
+            await axios.post(`https://furniture-e-commerce-website.onrender.com/api/contacts`, payload)
             setSubmitted(true)
         }
         catch (error) {

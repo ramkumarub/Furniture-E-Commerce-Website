@@ -43,7 +43,7 @@ const Livingroom = () => {
         const fetchProducts = async() => {
             try {
                 const slug = "livingroom"
-                const res = await axios.get(`http://localhost:8000/api/products/categories/${slug}?page=${page}&limit=6`)
+                const res = await axios.get(`https://furniture-e-commerce-website.onrender.com/api/products/categories/${slug}?page=${page}&limit=6`)
                 setProducts(res.data.data)
                 setTotalPages(res.data.totalPages)
             }

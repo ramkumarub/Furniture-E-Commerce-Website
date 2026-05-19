@@ -36,6 +36,7 @@ const Reset = () => {
           email : email
         }
         await axios.post(`https://jsonplaceholder.typicode.com/users`, payload)
+        // await axios.post(`https://furniture-e-commerce-website.onrender.com/users`, payload)
       }
       catch (error) {
         console.log(error)

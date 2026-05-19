@@ -13,7 +13,7 @@ const Logopagination = () => {
     useEffect(() => {
         const fetchLogos = async() => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/logos`)
+                const res = await axios.get(`https://furniture-e-commerce-website.onrender.com/api/logos`)
                 setLogos(res.data.data)
             }
             catch (error) {

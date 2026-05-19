@@ -42,7 +42,7 @@ const Shopall = () => {
     useEffect(() => {
         const fetchProducts = async() => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/products?page=${page}&limit=6`)
+                const res = await axios.get(`https://furniture-e-commerce-website.onrender.com/api/products?page=${page}&limit=6`)
                 setProducts(res.data.data)
                 setTotalPages(res.data.totalPages)
             }

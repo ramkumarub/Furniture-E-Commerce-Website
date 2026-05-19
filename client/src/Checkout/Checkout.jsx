@@ -154,7 +154,7 @@ const Checkout = () => {
         payment : payment
       }
       const response = await axios.post(
-        `http://localhost:8000/api/checkouts`,
+        `https://furniture-e-commerce-website.onrender.com/api/checkouts`,
         payload,
         {
           headers : {
@@ -164,7 +164,7 @@ const Checkout = () => {
       )
       for (let item of cartItems) {
         await axios.put(`
-          http://localhost:8000/api/products/${item.productId}/variants/${item.variantId}/stock`, 
+          https://furniture-e-commerce-website.onrender.com/api/products/${item.productId}/variants/${item.variantId}/stock`, 
           {
             stock : item.quantity
           }

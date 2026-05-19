@@ -71,7 +71,7 @@ const Signup = () => {
                 email : email,
                 password : password
                 }
-                const response = await axios.post(`http://localhost:8000/api/users/signup`, payload)
+                const response = await axios.post(`https://furniture-e-commerce-website.onrender.com/api/users/signup`, payload)
                 alert(response.data.message)
                 localStorage.setItem("token", response.data.token)
                 localStorage.setItem("email", response.data.user.email)

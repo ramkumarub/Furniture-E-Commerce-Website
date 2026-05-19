@@ -26,7 +26,7 @@ const Logout = () => {
         }
         try {
             const email = localStorage.getItem("email") || sessionStorage.getItem("email")
-            const response = await axios.post(`http://localhost:8000/api/users/logout`, {email})
+            const response = await axios.post(`https://furniture-e-commerce-website.onrender.com/api/users/logout`, {email})
             alert(response.data.message)
             setSuccess(response.data.message)
             localStorage.removeItem("token")
