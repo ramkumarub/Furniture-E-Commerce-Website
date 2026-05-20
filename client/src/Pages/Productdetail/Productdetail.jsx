@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useCart } from "../../Cartcontext/Cartcontext";
+import { useCart } from "../../Context/Cartcontext";
 import productdetail from "./productdetail.module.css";
 import { Link } from "react-router-dom";
 import Props from "../../Props/Props";
@@ -87,7 +87,7 @@ const ProductDetail = () => {
           rating: rating
         }
         const response = await axios.post(
-          `http://localhost:8000/api/reviews`, 
+          `https://furniture-e-commerce-website.onrender.com/api/reviews`, 
           payload,
           {
             headers : {

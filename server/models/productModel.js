@@ -1,4 +1,4 @@
-const { Schema, model, default: mongoose } = require("mongoose")
+const { Schema, model } = require("mongoose")
 
 const variantModel = new Schema({
     image : { type : String, required : true },
@@ -11,10 +11,7 @@ const variantModel = new Schema({
 
 const procuctModel = new Schema({
     name : { type : String, required : true, unique : true },
-    categories : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "Category"
-    }],
+    categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
     variants : [variantModel]
 })
 

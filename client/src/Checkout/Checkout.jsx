@@ -5,7 +5,7 @@ import { Country, State } from 'country-state-city'
 import { FaRegCheckCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import Props from '../Props/Props';
-import { useCart } from '../Cartcontext/Cartcontext';
+import { useCart } from '../Context/Cartcontext';
 import { IoIosLock } from "react-icons/io";
 import { useNavigate, useLocation } from 'react-router-dom';
 

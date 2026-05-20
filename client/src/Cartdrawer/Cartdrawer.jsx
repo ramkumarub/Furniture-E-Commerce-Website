@@ -1,5 +1,5 @@
 import React from "react";
-import { useCart } from "../Cartcontext/Cartcontext";
+import { useCart } from "../Context/Cartcontext";
 import cartdrawer from "./cartdrawer.module.css";
 import Props from "../Props/Props";
 import { Link } from 'react-router-dom'
@@ -21,7 +21,7 @@ const CartDrawer = ({ isOpen, setIsOpen }) => {
             {cartItems.length === 0 ? (
                 <div className={cartdrawer.emptyCart}>
                     <p>No products in the cart.</p>
-                    <Link to={'/Shopall'} onClick={() => setIsOpen(false)}>
+                    <Link to={'/shopall'} onClick={() => setIsOpen(false)}>
                         <Props content={'CONTINUE SHOPPING'} fsize={'15px'} font={'var(--primary-font)'} bgcolor={'var(--second-color)'} 
                             col={'var(--third-color)'} bord={'none'} rad={'0'} pad={'10px 23px'} 
                             hbg={'var(--first-color)'} cursor={'pointer'} trans={'0.4s'}

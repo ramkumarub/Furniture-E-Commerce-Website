@@ -4,7 +4,7 @@ import navbar from './navbar.module.css'
 import { Link, useLocation } from 'react-router-dom'
 // import { FaSearch } from "react-icons/fa";
 import { FaCartPlus } from "react-icons/fa";
-import { useCart } from '../Cartcontext/Cartcontext';
+import { useCart } from '../Context/Cartcontext';
 import { IoClose } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
 import CartDrawer from '../Cartdrawer/Cartdrawer';

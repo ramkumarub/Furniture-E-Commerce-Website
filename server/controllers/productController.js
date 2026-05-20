@@ -42,12 +42,13 @@ exports.getProducts = async(req, res) => {
             query.name = { $regex : safeSearch, $options : "i" }
         }
 
-        let productQuery = productModel.find(query).skip(skip)
+        let productQuery = productModel.find(query).populate("categories").skip(skip)
         if (limit) {
             productQuery = productQuery.limit(Number(limit))
         }
 
         const products = await productQuery
+        console.log(products[0].categories)
         const total = await productModel.countDocuments(query)
         const totalPages = limit ? Math.ceil(total / Number(limit)) : 1
         

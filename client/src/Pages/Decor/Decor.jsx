@@ -1,78 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import decor from './decor.module.css'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
+import { Link, useLocation } from 'react-router-dom'
+import { useProducts } from '../../Context/Productcontext'
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md"
 import { MdKeyboardDoubleArrowRight } from "react-icons/md"
 
-const Decor = () => {
+const ProductCard = ({ product }) => {
 
-    const [sortOption, setSortOption] = useState('default')
-    const [products, setProducts] = useState([])
-    const [page, setPage] = useState(1)
-    const [totalPages, setTotalPages] = useState(1)
+    const location = useLocation()
+    const [currentColor, setCurrentColor] = useState(product.variants[0])
 
-    const sortedProducts = [...products].sort((a, b) => {
-
-        const priceA = parseFloat(a.variants[0].newprice.replace('$', ''))
-        const priceB = parseFloat(b.variants[0].newprice.replace('$', ''))
-
-        if (sortOption === 'low') {
-            return priceA - priceB
-        }
-
-        if (sortOption === 'high') {
-            return priceB - priceA
-        }
-
-        if (sortOption === "popularity") {
-            return Math.random() - 0.5
-        }
-        if (sortOption === "rating") {
-            return Math.random() - 0.5
-        }
-        if (sortOption === "latest") {
-            return Math.random() - 0.5
-        }
-
-        return 0
-
-    })
-
-    useEffect(() => {
-        const fetchProducts = async() => {
-            try {
-                const slug = "decor"
-                const res = await axios.get(`https://furniture-e-commerce-website.onrender.com/api/products/categories/${slug}?page=${page}&limit=6`)
-                setProducts(res.data.data)
-                setTotalPages(res.data.totalPages)
-            }
-            catch (error) {
-                console.log(error)
-                setProducts([])
-            }
-        }
-        fetchProducts()
-    }, [page])
-
-    const ProductCard = ({ product }) => {
-
-        const [currentColor, setCurrentColor] = useState(product.variants[0])
-
-        return (
-            <div className={decor.image}>
-                <Link to={`/product/${product._id}/${product.categories.find((cat) => window.location.pathname.includes(cat.slug))?.slug || product.categories?.[0]?.slug || "shopall"}`}>
-                    <img src={currentColor.image} alt={product.name} />
-                </Link>
-                <button className={decor.sale}>Sale!</button>
-                <div className={decor.imagetext}>
-                    <h2>{product.name}</h2>
-                    <h5 style={{ display: 'flex', gap: '5px' }}>
-                        <strike>{currentColor.oldprice}</strike>
-                        <p style={{ color: '#313131' }}>{currentColor.newprice}</p>
-                    </h5>
-                    {
-                        currentColor.stock > 0 
+    return (
+        <div className={decor.image}>
+            <Link to={`/product/${product._id}/${product.categories?.find((cat) => location.pathname.includes(cat)) || product.categories?.[0] || "shopall"}`}>
+                <img src={currentColor.image} loading='lazy' decoding='async' alt={product.name} />
+            </Link>
+            <button className={decor.sale}>Sale!</button>
+            <div className={decor.imagetext}>
+                <h2>{product.name}</h2>
+                <h5 style={{ display: 'flex', gap: '5px' }}>
+                    <strike>{currentColor.oldprice}</strike>
+                    <p style={{ color: '#313131' }}>{currentColor.newprice}</p>
+                </h5>
+                {
+                    currentColor.stock > 0
                         ?
                         <p style={{ color: 'green', fontSize: '15px' }}>
                             In Stock : {currentColor.stock}
@@ -81,17 +32,67 @@ const Decor = () => {
                         <p style={{ color: 'red', fontSize: '15px' }}>
                             Out of Stock
                         </p>
-                    }
-                    <div className={decor.buttons}>
-                        {product.variants.map((item) => (
-                            <div key={item._id}>
-                                <button className={decor.currentbutton} onClick={() => setCurrentColor(item)} style={{ backgroundColor: item.color, cursor : 'pointer' }}></button>
-                            </div>
-                        ))}
-                    </div>
+                }
+                <div className={decor.buttons}>
+                    {product.variants.map((item) => (
+                        <div key={item._id}>
+                            <button className={decor.currentbutton} onClick={() => setCurrentColor(item)} style={{ backgroundColor: item.color, cursor: 'pointer' }}></button>
+                        </div>
+                    ))}
                 </div>
             </div>
-        )
+        </div>
+    )
+}
+
+const Decor = () => {
+
+    const [sortOption, setSortOption] = useState('default')
+    const [page, setPage] = useState(1)
+    const { products, loading } = useProducts()
+
+    useEffect(() => {
+        setPage(1)
+    }, [sortOption])
+
+    const decorProducts = useMemo(() => {
+        return products.filter((product) =>product.categories?.some((cat) => cat.slug === "decor"))
+    }, [products])
+
+    const sortedProducts = useMemo(() => {
+        return [...decorProducts].sort((a, b) => {
+
+            const priceA = parseFloat(a.variants?.[0]?.newprice?.replace('$', '') || 0)
+            const priceB = parseFloat(b.variants?.[0]?.newprice?.replace('$', '') || 0)
+
+            if (sortOption === 'low') {
+                return priceA - priceB
+            }
+
+            if (sortOption === 'high') {
+                return priceB - priceA
+            }
+
+            if (sortOption === "popularity") {
+                return Math.random() - 0.5
+            }
+            if (sortOption === "rating") {
+                return Math.random() - 0.5
+            }
+            if (sortOption === "latest") {
+                return Math.random() - 0.5
+            }
+
+            return 0
+        })
+    }, [decorProducts, sortOption])
+
+    const itemsPerPage = 6
+    const totalPages = Math.ceil(decorProducts.length / itemsPerPage) || 1
+    const currentProducts = sortedProducts.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+
+    if (loading) {
+        return <h1>Loading...</h1>
     }
 
   return (
@@ -111,10 +112,10 @@ const Decor = () => {
                 </select>
             </div>
             <div className={decor.products}>
-                {sortedProducts.length === 0 ? (
+                {currentProducts.length === 0 ? (
                     <h2>No Products Found</h2>
                 ) : (
-                    sortedProducts.map((product) => (
+                    currentProducts.map((product) => (
                         <ProductCard key={product._id} product={product} />
                     ))
                 )}

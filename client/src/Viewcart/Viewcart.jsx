@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import viewcart from './viewcart.module.css'
-import { useCart } from '../Cartcontext/Cartcontext'
+import { useCart } from '../Context/Cartcontext'
 import Props from '../Props/Props'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
