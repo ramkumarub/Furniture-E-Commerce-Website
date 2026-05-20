@@ -12,7 +12,10 @@ const reviewRoute = require("./routes/reviewRoute")
 const couponRoute = require("./routes/couponRoute")
 const checkoutRoute = require("./routes/checkoutRoute")
 
-app.use(cors())
+app.use(cors({
+    origin : "*",
+    credentials :true
+}))
 app.use(express.json())
 
 // Users Route
