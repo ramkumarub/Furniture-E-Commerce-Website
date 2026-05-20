@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
 
     return (
         <div className={decor.image}>
-            <Link to={`/product/${product._id}/${product.categories?.find((cat) => location.pathname.includes(cat)) || product.categories?.[0] || "shopall"}`}>
+            <Link to={`/product/${product._id}/${product.categories?.find((cat) => location.pathname.includes(cat.slug))?.slug || "shopall"}`}>
                 <img src={currentColor.image} loading='lazy' decoding='async' alt={product.name} />
             </Link>
             <button className={decor.sale}>Sale!</button>
@@ -55,9 +55,7 @@ const Decor = () => {
         setPage(1)
     }, [sortOption])
 
-    const decorProducts = useMemo(() => {
-        return products.filter((product) =>product.categories?.some((cat) => cat.slug === "decor"))
-    }, [products])
+    const decorProducts = products.filter((product) => product.categories?.some((cat) => cat.slug === "decor"))
 
     const sortedProducts = useMemo(() => {
         return [...decorProducts].sort((a, b) => {

@@ -1,78 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import office from './office.module.css'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
+import { Link, useLocation } from 'react-router-dom'
+import { useProducts } from '../../Context/Productcontext'
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md"
 import { MdKeyboardDoubleArrowRight } from "react-icons/md"
 
-const Shopall = () => {
+const ProductCard = ({ product }) => {
 
-    const [sortOption, setSortOption] = useState('default')
-    const [products, setProducts] = useState([])
-    const [page, setPage] = useState(1)
-    const [totalPages, setTotalPages] = useState(1)
+    const location = useLocation()
+    const [currentColor, setCurrentColor] = useState(product.variants[0])
 
-    const sortedProducts = [...products].sort((a, b) => {
-
-        const priceA = parseFloat(a.variants[0].newprice.replace('$', ''))
-        const priceB = parseFloat(b.variants[0].newprice.replace('$', ''))
-
-        if (sortOption === 'low') {
-            return priceA - priceB
-        }
-
-        if (sortOption === 'high') {
-            return priceB - priceA
-        }
-
-        if (sortOption === "popularity") {
-            return Math.random() - 0.5
-        }
-        if (sortOption === "rating") {
-            return Math.random() - 0.5
-        }
-        if (sortOption === "latest") {
-            return Math.random() - 0.5
-        }
-
-        return 0
-
-    })
-
-    useEffect(() => {
-        const fetchProducts = async() => {
-            try {
-                const slug = "office"
-                const res = await axios.get(`https://furniture-e-commerce-website.onrender.com/api/products/categories/${slug}?page=${page}&limit=6`)
-                setProducts(res.data.data)
-                setTotalPages(res.data.totalPages)
-            }
-            catch (error) {
-                console.log(error)
-                setProducts([])
-            }
-        }
-        fetchProducts()
-    }, [page])
-
-    const ProductCard = ({ product }) => {
-
-        const [currentColor, setCurrentColor] = useState(product.variants[0])
-
-        return (
-            <div className={office.image}>
-                <Link to={`/product/${product._id}/${product.categories.find((cat) => window.location.pathname.includes(cat.slug))?.slug || product.categories?.[0]?.slug || "shopall"}`}>
-                    <img src={currentColor.image} alt={product.name} />
-                </Link>
-                <button className={office.sale}>Sale!</button>
-                <div className={office.imagetext}>
-                    <h2>{product.name}</h2>
-                    <h5 style={{ display: 'flex', gap: '5px' }}>
-                        <strike>{currentColor.oldprice}</strike>
-                        <p style={{ color: '#313131' }}>{currentColor.newprice}</p>
-                    </h5>
-                    {
-                        currentColor.stock > 0 
+    return (
+        <div className={office.image}>
+            <Link to={`/product/${product._id}/${product.categories?.find((cat) => location.pathname.includes(cat.slug))?.slug || "shopall"}`}>
+                <img src={currentColor.image} alt={product.name} />
+            </Link>
+            <button className={office.sale}>Sale!</button>
+            <div className={office.imagetext}>
+                <h2>{product.name}</h2>
+                <h5 style={{ display: 'flex', gap: '5px' }}>
+                    <strike>{currentColor.oldprice}</strike>
+                    <p style={{ color: '#313131' }}>{currentColor.newprice}</p>
+                </h5>
+                {
+                    currentColor.stock > 0
                         ?
                         <p style={{ color: 'green', fontSize: '15px' }}>
                             In Stock : {currentColor.stock}
@@ -81,17 +32,65 @@ const Shopall = () => {
                         <p style={{ color: 'red', fontSize: '15px' }}>
                             Out of Stock
                         </p>
-                    }
-                    <div className={office.buttons}>
-                        {product.variants.map((item) => (
-                            <div key={item._id}>
-                                <button className={office.currentbutton} onClick={() => setCurrentColor(item)} style={{ backgroundColor: item.color, cursor : 'pointer' }}></button>
-                            </div>
-                        ))}
-                    </div>
+                }
+                <div className={office.buttons}>
+                    {product.variants.map((item) => (
+                        <div key={item._id}>
+                            <button className={office.currentbutton} onClick={() => setCurrentColor(item)} style={{ backgroundColor: item.color, cursor: 'pointer' }}></button>
+                        </div>
+                    ))}
                 </div>
             </div>
-        )
+        </div>
+    )
+}
+
+const Shopall = () => {
+
+    const [sortOption, setSortOption] = useState('default')
+    const [page, setPage] = useState(1)
+    const { products, loading } = useProducts()
+
+    useEffect(() => {
+        setPage(1)
+    }, [sortOption])
+
+    const officeProducts = products.filter((product) => product.categories?.some((cat) => cat.slug === "office"))
+
+    const sortedProducts = useMemo(() => {
+        return [...officeProducts].sort((a, b) => {
+
+            const priceA = parseFloat(a.variants?.[0]?.newprice?.replace('$', '') || 0)
+            const priceB = parseFloat(b.variants?.[0]?.newprice?.replace('$', '') || 0)
+
+            if (sortOption === 'low') {
+                return priceA - priceB
+            }
+
+            if (sortOption === 'high') {
+                return priceB - priceA
+            }
+
+            if (sortOption === "popularity") {
+                return Math.random() - 0.5
+            }
+            if (sortOption === "rating") {
+                return Math.random() - 0.5
+            }
+            if (sortOption === "latest") {
+                return Math.random() - 0.5
+            }
+
+            return 0
+        })
+    }, [officeProducts, sortOption])
+
+    const itemsPerPage = 6
+    const totalPages = Math.ceil(officeProducts.length / itemsPerPage) || 1
+    const currentProducts = sortedProducts.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+
+    if (loading) {
+        return <h1>Loading...</h1>
     }
 
   return (
@@ -111,10 +110,10 @@ const Shopall = () => {
                 </select>
             </div>
             <div className={office.products}>
-                {sortedProducts.length === 0 ? (
+                {currentProducts.length === 0 ? (
                     <h2>No Products Found</h2>
                 ) : (
-                    sortedProducts.map((product) => (
+                    currentProducts.map((product) => (
                         <ProductCard key={product._id} product={product} />
                     ))
                 )}

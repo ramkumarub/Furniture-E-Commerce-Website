@@ -56,8 +56,6 @@ const Bedroom = () => {
     }, [sortOption])
 
     const bedroomProducts = products.filter((product) => product.categories?.some((cat) => cat.slug === "bedroom"))
-    console.log(products)
-    console.log(bedroomProducts)
 
     const sortedProducts = useMemo(() => {
         return [...bedroomProducts].sort((a, b) => {
